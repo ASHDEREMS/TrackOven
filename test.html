@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrackOven connection test</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;margin:0;padding:16px;background:#081029;color:#fff}
+button{font:inherit;font-weight:700;padding:14px 20px;border:0;border-radius:12px;background:#E8B94A;color:#04070F;width:100%}
+.l{padding:10px 12px;margin:8px 0;border-radius:10px;background:#0E1A3F;word-break:break-word;font-size:14px}
+.ok{border-left:5px solid #34D399}.bad{border-left:5px solid #F87171}.i{border-left:5px solid #A9B2CC}</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script></head><body>
+<h2>TrackOven connection test</h2>
+<p>Tap the button, wait 10 seconds, then send me a screenshot of the results.</p>
+<button id="go">Run test</button><div id="out"></div>
+<script>
+const out=document.getElementById('out');
+const say=(t,c)=>{const d=document.createElement('div');d.className='l '+(c||'i');d.textContent=t;out.appendChild(d)};
+async function peek(file,needle){try{const r=await fetch(file+'?t='+Date.now());const t=await r.text();return r.ok?(t.includes(needle)?'new':'OLD version'):'HTTP '+r.status}catch(e){return 'error '+e.message}}
+document.getElementById('go').onclick=async()=>{
+  out.innerHTML='';
+  say('Library loaded: '+(window.supabase?'yes':'NO (the Supabase script was blocked or failed)'),window.supabase?'ok':'bad');
+  const c=window.TRACKOVEN||{};
+  say('config.js URL: '+(c.SUPABASE_URL||'MISSING'),/supabase\.co/.test(c.SUPABASE_URL||'')?'ok':'bad');
+  say('config.js key starts with: '+((c.SUPABASE_ANON_KEY||'MISSING').slice(0,16)),/PASTE_|MISSING/.test(c.SUPABASE_ANON_KEY||'MISSING')?'bad':'ok');
+  const a=await peek('auth.js','setup problem'),b=await peek('index.html','unhandledrejection');
+  say('auth.js on the site: '+a,a==='new'?'ok':'bad');
+  say('index.html on the site: '+b,b==='new'?'ok':'bad');
+  if(!window.supabase||!c.SUPABASE_URL)return;
+  try{
+    const r=await fetch(c.SUPABASE_URL+'/auth/v1/settings',{headers:{apikey:c.SUPABASE_ANON_KEY}});
+    const j=await r.json();
+    say('Supabase reachable: HTTP '+r.status,r.ok?'ok':'bad');
+    if(r.ok){say('Email confirmation required: '+(j.mailer_autoconfirm?'NO (sign-ups are instant)':'YES (a confirmation email is needed)'),'i');say('Sign-ups disabled: '+(j.disable_signup?'YES':'no'),j.disable_signup?'bad':'ok')}
+    else say('Reply: '+JSON.stringify(j).slice(0,200),'bad');
+  }catch(e){say('Could not reach Supabase: '+e.message,'bad');return}
+  try{
+    const sb=window.supabase.createClient(c.SUPABASE_URL,c.SUPABASE_ANON_KEY);
+    const em='test'+Date.now()+'@example.com';
+    say('Trying a test sign-up with '+em+' ...','i');
+    const t0=Date.now();
+    const p=sb.auth.signUp({email:em,password:'Test12345!x'});
+    const res=await Promise.race([p,new Promise(r=>setTimeout(()=>r({timeout:true}),20000))]);
+    if(res.timeout)say('Sign-up did not answer within 20 seconds.','bad');
+    else if(res.error)say('Sign-up error: '+res.error.message+' (status '+res.error.status+')','bad');
+    else say('Sign-up worked in '+(Date.now()-t0)+' ms. User created: '+(res.data.user?'yes':'no'),'ok');
+  }catch(e){say('Sign-up crashed: '+e.message,'bad')}
+};
+</script></body></html>
