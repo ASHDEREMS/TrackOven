@@ -1,0 +1,15 @@
+{
+  "name": "TrackOven",
+  "short_name": "TrackOven",
+  "description": "Your exam prep, planned, timed and tracked.",
+  "start_url": "app.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#081029",
+  "theme_color": "#081029",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
