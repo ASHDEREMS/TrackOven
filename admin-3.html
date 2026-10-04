@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TrackOven — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>try{var t=localStorage.getItem("to-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<style>
+:root{--navy:#081029;--navy2:#0E1A3F;--black:#04070F;--gold:#E8B94A;--gold2:#F6D77E;--ink:#fff;--mute:#A9B2CC;--line:rgba(255,255,255,.12);--up:#34D399;--down:#F87171;--cardbg:rgba(14,26,63,.7);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--navy:#F3F5FB;--navy2:#E4E9F7;--black:#fff;--ink:#0B1330;--mute:#55607F;--line:rgba(11,19,48,.15);--down:#D9362F;--gold:#B7860F;--gold2:#E6BE55;--cardbg:rgba(255,255,255,.9)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Sora',system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--navy2),var(--navy) 40%,var(--black));background-color:var(--navy);line-height:1.5}
+button,input,select,textarea{font:inherit}
+.w{max-width:820px;margin:0 auto;padding:16px 16px 70px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.logo{display:flex;gap:8px;align-items:center;font-weight:800;font-size:19px}
+.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.logo .i{color:var(--gold)}
+.hi{color:var(--mute);font-size:13px;margin:0 0 14px}.hi b{color:var(--gold)}
+.tgb,.ib{border:1px solid var(--line);background:transparent;color:var(--gold);border-radius:50%;width:38px;height:38px;cursor:pointer;display:grid;place-items:center}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.tab{border:1px solid var(--line);background:transparent;color:var(--mute);border-radius:99px;padding:8px 15px;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}
+.tab.on{background:var(--gold);color:#04070F;border-color:var(--gold)}
+.card{background:var(--cardbg);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px}
+.card h3{margin:0 0 12px;font-size:16px}
+.sub{font-size:12px;color:var(--mute)}
+.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.st{border:1px solid var(--line);border-radius:16px;padding:14px;background:var(--black)}
+.st b{display:block;font-size:26px;letter-spacing:-.03em;color:var(--gold)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:end}
+label{display:grid;gap:4px;font-size:12px;color:var(--mute);font-weight:600;flex:1;min-width:120px}
+input,select,textarea{background:var(--black);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;width:100%}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#04070F}
+.btn.d{background:transparent;color:var(--down);border:1px solid var(--down);padding:7px 12px;font-size:12px}
+.btn.d.arm{background:var(--down);color:#fff}
+.it{padding:12px 0;border-top:1px solid var(--line)}
+.it:first-of-type{border-top:0}
+.top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}
+.top b{font-size:14px}
+.bars{display:flex;align-items:flex-end;gap:5px;height:110px;margin-top:8px}
+.bars div{flex:1;background:linear-gradient(180deg,var(--gold2),var(--gold));border-radius:6px 6px 0 0;min-height:3px;position:relative}
+.bars span{position:absolute;top:-16px;left:0;right:0;text-align:center;font-size:10px;color:var(--mute)}
+.lab{display:flex;gap:5px;margin-top:4px}.lab span{flex:1;text-align:center;font-size:9px;color:var(--mute)}
+.er{color:var(--down);font-size:12px;min-height:16px;margin:6px 0}
+.ok{color:var(--up)}
+.sw{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--line);font-size:14px}
+.sw:first-of-type{border-top:0}
+.sw input{width:auto}
+.pill{font-size:11px;border-radius:99px;padding:3px 10px;font-weight:700;border:1px solid var(--line);color:var(--mute)}
+.pill.f{color:var(--up);border-color:var(--up)}.pill.p{color:var(--gold);border-color:var(--gold)}
+.note{font-size:12px;color:var(--mute);margin-top:10px;padding:10px 12px;border:1px dashed var(--line);border-radius:12px}
+</style>
+<style>html{visibility:hidden}.lo{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:99px;padding:6px 12px;font-size:12px;cursor:pointer}</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>requireAdmin().then(function(s){if(s)document.documentElement.style.visibility="visible"})</script>
+</head>
+<body>
+<div class="w">
+<header><div class="logo"><span id="lg"></span>TrackOven Admin</div><div style="display:flex;gap:8px;align-items:center"><button class="tgb" id="th"></button><button class="lo" id="lo" onclick="doLogout()">Log out</button></div></header>
+<p class="hi">Welcome, <b>ASHDEREMS</b>. Advocate of academic excellence.</p>
+<div class="tabs" id="tabs"></div>
+<div id="v"></div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const P={flame:'<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>',sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-15.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'};
+const ic=k=>`<svg class="i" viewBox="0 0 24 24">${P[k]}</svg>`;
+$('lg').innerHTML=ic('flame');
+function setTh(t){document.documentElement.dataset.theme=t;try{localStorage.setItem('to-theme',t)}catch(e){}$('th').innerHTML=ic(t==='light'?'moon':'sun');$('th').setAttribute('aria-label',t==='light'?'Switch to dark mode':'Switch to light mode')}
+$('th').onclick=()=>setTh(document.documentElement.dataset.theme==='light'?'dark':'light');
+setTh(document.documentElement.dataset.theme||'dark');
+
+const BANKS=['Access Bank','GTBank','First Bank','UBA','Zenith Bank','Fidelity Bank','Stanbic IBTC','Sterling Bank','Union Bank','Wema Bank','FCMB','Polaris Bank','Kuda','Moniepoint','OPay','PalmPay'];
+const TABS=['Overview','Analytics','Users','Exams','Schools','Features','Messages','Payments','Settings','Files','Flags','Syllabus'];
+const PK={features:'key'};
+let tab='Overview',q='',armed=null,msg='';const D={};
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fd=t=>new Date(t).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+const ago=t=>{const d=Math.floor((Date.now()-new Date(t))/864e5);return d<=0?'today':d+' day'+(d===1?'':'s')+' ago'};
+const toLocal=iso=>{const d=new Date(iso);return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,16)};
+const del=(t,id)=>`<button class="btn d ${armed===t+id?'arm':''}" data-a="del" data-t="${t}" data-id="${esc(id)}">${armed===t+id?'Tap again to delete':'Delete'}</button>`;
+const inp=(t,id,k,val,type,extra)=>`<input ${type?`type="${type}"`:''} ${extra||''} data-t="${t}" data-id="${esc(id)}" data-k="${k}" value="${esc(val)}">`;
+const act=(t,r)=>`<label style="flex:none;min-width:0;display:flex;flex-direction:row;gap:6px;align-items:center"><input type="checkbox" style="width:auto" data-t="${t}" data-id="${esc(r.id)}" data-k="active" ${r.active?'checked':''}>Active</label>`;
+
+async function load(){
+  $('tabs').innerHTML=TABS.map(t=>`<button class="tab ${t===tab?'on':''}" data-tb="${t}">${t}</button>`).join('');
+  $('v').innerHTML='<div class="card sub">Loading...</div>';
+  const errs=[];const chk=(...r)=>r.forEach(x=>{if(x&&x.error)errs.push(x.error.message)});
+  try{
+    if(tab==='Overview'){const [a,b]=await Promise.all([sb.rpc('admin_stats'),sb.rpc('admin_signups_by_day',{p_days:14})]);chk(a,b);D.stats=a.data||{};D.days=b.data||[]}
+    if(tab==='Analytics'){const cut=new Date(Date.now()-3*864e5).toISOString();
+      const [a,b,c,d]=await Promise.all([sb.rpc('admin_stats'),sb.rpc('admin_hard_topics',{p_limit:5}),sb.rpc('admin_mock_attempts',{p_limit:5}),sb.from('profiles').select('full_name,last_active_at').eq('role','student').lt('last_active_at',cut).order('last_active_at').limit(6)]);
+      chk(a,b,c,d);D.stats=a.data||{};D.hard=b.data||[];D.mocks=c.data||[];D.inactive=d.data||[]}
+    if(tab==='Users'){const r=await sb.from('profiles').select('id,full_name,email,institution,course,created_at,last_active_at').eq('role','student').order('created_at',{ascending:false}).limit(500);chk(r);D.users=r.data||[]}
+    if(tab==='Exams'){const r=await sb.from('exams_catalog').select('*').order('exam_at');chk(r);D.exams_catalog=r.data||[]}
+    if(tab==='Schools'){const r=await sb.from('schools').select('*').order('name');chk(r);D.schools=r.data||[]}
+    if(tab==='Features'){const r=await sb.from('features').select('*').order('name');chk(r);D.features=r.data||[]}
+    if(tab==='Messages'){const r=await sb.from('welcome_messages').select('*').order('title');chk(r);D.welcome_messages=r.data||[]}
+    if(tab==='Payments'){const [a,b]=await Promise.all([sb.from('plans').select('*').order('days'),sb.from('paystack_subaccounts').select('*').order('created_at')]);chk(a,b);D.plans=a.data||[];D.paystack_subaccounts=b.data||[];
+      const pay=await sb.from('subscriptions').select('amount_kobo,created_at,profiles(full_name,email)').eq('status','success').order('created_at',{ascending:false}).limit(500);D.pay=pay.data||[];
+      const bk=await sb.functions.invoke('paystack-admin',{body:{action:'banks'}});D.banks=(bk.data&&bk.data.banks)||[];D.banksErr=bk.error?'The bank list is not available yet. Deploy the paystack-admin function and add your Paystack secret key.':''}
+    if(tab==='Settings'){const r=await sb.from('site_settings').select('*').in('key',['whatsapp','uploads','mocks']);chk(r);const m={};(r.data||[]).forEach(x=>m[x.key]=x.value);D.wa=m.whatsapp||{enabled:false,number:'',message:'Hello, I need help with TrackOven.'};D.up=m.uploads||{images:true,pdfs:true};D.mk=m.mocks||{enabled:false}}
+    if(tab==='Files'){const r=await sb.rpc('admin_files',{p_limit:500});chk(r);D.files=r.data||[]}
+    if(tab==='Syllabus'){const keys=[...new Set(D.syl.map(x=>x.exam_key+'|'+x.subject))];
+    h=`<div class="card"><h3>Add syllabus topics</h3><div class="sub" style="margin-bottom:8px">Students can import these into their own syllabus tracker. Adding the same topic again does nothing.</div>
+    <div class="row"><label>Exam<select id="sye">${['UTME','UI Post UTME','WAEC','NECO','100L','Custom exam'].map(x=>`<option>${x}</option>`).join('')}</select></label><label>Subject (must match the student's subject name)<input id="sys" placeholder="e.g. Biology"></label></div>
+    <label style="margin-top:8px">Topics (one per line)<textarea id="syt" rows="6" placeholder="Cell structure&#10;Photosynthesis&#10;Genetics"></textarea></label>${em}<button class="btn" data-a="addsyl" style="margin-top:8px">Save topics</button></div>
+    <div class="card"><h3>Saved syllabus (${D.syl.length} topics)</h3>${keys.map(k=>{const [ex,su]=k.split('|'),n=D.syl.filter(x=>x.exam_key===ex&&x.subject===su).length;return `<div class="it"><div class="top"><div><b>${esc(su)}</b><div class="sub">${esc(ex)} · ${n} topics</div></div><button class="btn d ${armed==='g'+k?'arm':''}" data-a="delsyl" data-ex="${esc(ex)}" data-su="${esc(su)}">${armed==='g'+k?'Tap again to delete':'Delete all'}</button></div></div>`}).join('')||'<div class="sub">No topics yet.</div>'}</div>`}
+  if(tab==='Flags'){const r=await sb.rpc('admin_flags');chk(r);D.flags=r.data||[]}
+    if(tab==='Syllabus'){const r=await sb.from('syllabus_catalog').select('*').order('exam_key').order('subject').order('sort').limit(3000);chk(r);D.syl=r.data||[]}
+  }catch(e){errs.push(e.message)}
+  if(errs.some(m=>/not allowed/i.test(m))){location.replace('index.html');return}
+  if(errs.length)msg=errs[0]+(/email/.test(errs[0])?' (Run setup-part3-email.sql in Supabase first.)':'');
+  view();
+}
+
+function view(){
+  const em=`<div class="er ${/^(Saved|Sample|Subaccount created)/.test(msg)?'ok':''}">${esc(msg)}</div>`;let h='';
+  if(tab==='Overview'){const s=D.stats||{},mx=Math.max(1,...D.days.map(d=>d.signups));
+    h=`<div class="g"><div class="st"><span class="sub">Total users</span><b>${s.total_users??0}</b></div><div class="st"><span class="sub">Today</span><b>${s.today??0}</b></div><div class="st"><span class="sub">This week</span><b>${s.this_week??0}</b></div><div class="st"><span class="sub">This month</span><b>${s.this_month??0}</b></div><div class="st"><span class="sub">This year</span><b>${s.this_year??0}</b></div></div>
+    <div class="card" style="margin-top:14px"><h3>Sign-ups, last 14 days</h3><div class="bars">${D.days.map(d=>`<div style="height:${d.signups/mx*100}%"><span>${d.signups||''}</span></div>`).join('')}</div><div class="lab">${D.days.map(d=>`<span>${new Date(d.day+'T00:00:00').getDate()}</span>`).join('')}</div></div>${em}`}
+  if(tab==='Analytics'){const s=D.stats||{};
+    h=`<div class="g"><div class="st"><span class="sub">Active (7 days)</span><b>${s.active_7d??0}</b></div><div class="st"><span class="sub">Studying today</span><b>${s.studying_today??0}</b></div><div class="st"><span class="sub">Inactive (3+ days)</span><b>${s.inactive_3d??0}</b></div><div class="st"><span class="sub">Average performance</span><b>${s.avg_performance==null?'-':s.avg_performance+'%'}</b></div><div class="st"><span class="sub">Mocks logged</span><b>${s.mocks_logged??0}</b></div><div class="st"><span class="sub">Improving / declining</span><b>${s.improving??0} / ${s.declining??0}</b></div></div>
+    <div class="card" style="margin-top:14px"><h3>Most difficult topics</h3>${D.hard.map(t=>`<div class="sw"><span>${esc(t.topic)} <span class="sub">${esc(t.subject)}</span></span><b style="color:var(--down)">${t.avg_score}% avg</b></div>`).join('')||'<div class="sub">Needs at least 3 scores per topic.</div>'}</div>
+    <div class="card"><h3>Most attempted mocks</h3>${D.mocks.map(t=>`<div class="sw"><span>${esc(t.label)} <span class="sub">${esc(t.exam_key)}</span></span><b>${t.attempts} students</b></div>`).join('')||'<div class="sub">No mocks yet.</div>'}</div>
+    <div class="card"><h3>Inactive students</h3>${D.inactive.map(u=>`<div class="sw"><span>${esc(u.full_name)}</span><span class="sub">${ago(u.last_active_at)}</span></div>`).join('')||'<div class="sub">Everyone is active.</div>'}</div>${em}`}
+  if(tab==='Users'){const L=D.users.filter(u=>((u.full_name||'')+(u.email||'')+(u.institution||'')).toLowerCase().includes(q.toLowerCase()));
+    h=`<div class="card"><h3>Users (${L.length})</h3><input id="q" placeholder="Search name, email or school" value="${esc(q)}">${em}${L.map(u=>`<div class="it"><div class="top"><div><b>${esc(u.full_name)}</b><div class="sub">${esc(u.email||'no email saved')}</div><div class="sub">${esc(u.institution||'')} · ${esc(u.course||'')}</div><div class="sub">Joined ${fd(u.created_at)} · active ${ago(u.last_active_at)}</div></div>${del('users',u.id)}</div></div>`).join('')||'<div class="sub" style="margin-top:10px">No users found.</div>'}</div>`}
+  if(tab==='Exams'){
+    h=`<div class="card"><h3>Exam countdowns</h3><div class="sub" style="margin-bottom:8px">Students pick from these and see the countdown instantly.</div>${D.exams_catalog.map(e=>`<div class="it"><div class="row"><label>Name${inp('exams_catalog',e.id,'name',e.name)}</label><label>Date and time${inp('exams_catalog',e.id,'exam_at',toLocal(e.exam_at),'datetime-local')}</label>${act('exams_catalog',e)}${del('exams_catalog',e.id)}</div></div>`).join('')||'<div class="sub">No exams yet.</div>'}</div>
+    <div class="card"><h3>Add exam</h3><div class="row"><label>Name<input id="en"></label><label>Date and time<input id="et" type="datetime-local"></label><button class="btn" data-a="addexam">Add</button></div>${em}</div>`}
+  if(tab==='Schools'){
+    h=`<div class="card"><h3>Aggregate formulas</h3><div class="sub" style="margin-bottom:8px">Points each part is worth. Use 0 where a school doesn't need Post UTME or O'level. Schools not listed here are filled in by the student.</div>${D.schools.map(s=>`<div class="it"><div class="top"><b>${esc(s.name)}</b>${del('schools',s.id)}</div><div class="row"><label>UTME worth${inp('schools',s.id,'utme_points',s.utme_points,'number')}</label><label>Post UTME worth${inp('schools',s.id,'post_points',s.post_points,'number')}</label><label>Post UTME out of${inp('schools',s.id,'post_out_of',s.post_out_of,'number')}</label><label>O'level worth${inp('schools',s.id,'olevel_points',s.olevel_points,'number')}</label>${act('schools',s)}</div><div class="sub" style="margin-top:6px">UTME/400×${s.utme_points}${+s.post_points?` + Post UTME/${s.post_out_of}×${s.post_points}`:''}${+s.olevel_points?` + O'level×${s.olevel_points}`:''} = max ${(+s.utme_points)+(+s.post_points)+(+s.olevel_points)}</div></div>`).join('')}</div>
+    <div class="card"><h3>Add school</h3><div class="row"><label style="flex:2 1 220px">School name<input id="sn"></label><label>UTME worth<input id="su" type="number" value="50"></label><label>Post UTME worth<input id="sp" type="number" value="50"></label><label>Post UTME out of<input id="spo" type="number" value="100"></label><label>O'level worth<input id="so" type="number" value="0"></label><button class="btn" data-a="addschool">Add</button></div>${em}</div>`}
+  if(tab==='Features'){
+    h=`<div class="card"><h3>Free or Premium</h3><div class="sub">Free features are open to everyone. The rest appear under Upgrade to Premium. Changes apply to students straight away.</div>${em}${D.features.map(f=>`<div class="sw"><span>${esc(f.name)}</span><label style="flex:none;min-width:0;display:flex;gap:8px;align-items:center"><span class="pill ${f.is_free?'f':'p'}">${f.is_free?'Free':'Premium'}</span><input type="checkbox" data-t="features" data-id="${esc(f.key)}" data-k="is_free" ${f.is_free?'checked':''} aria-label="${esc(f.name)} is free"></label></div>`).join('')}</div>`}
+  if(tab==='Messages'){const n=D.welcome_messages.filter(m=>m.active).length;
+    h=`<div class="card"><h3>Welcome messages</h3><div class="sub" style="margin-bottom:8px">Each student sees one active message at random. ${n<3?'<b style="color:var(--down)">Keep at least 3 active.</b>':n+' active.'}</div>${D.welcome_messages.map(m=>`<div class="it"><div class="row"><label>Title${inp('welcome_messages',m.id,'title',m.title)}</label>${act('welcome_messages',m)}${del('welcome_messages',m.id)}</div><label style="margin-top:8px">Message<textarea rows="2" data-t="welcome_messages" data-id="${esc(m.id)}" data-k="body">${esc(m.body)}</textarea></label></div>`).join('')}</div>
+    <div class="card"><h3>Add message</h3><div class="row"><label>Title<input id="mt"></label></div><label style="margin-top:8px">Message<textarea id="mb" rows="2"></textarea></label>${em}<button class="btn" data-a="addmsg">Add message</button></div>`}
+  if(tab==='Payments'){const tot=D.pay.reduce((x,p)=>x+p.amount_kobo,0)/100,m30=D.pay.filter(p=>Date.now()-new Date(p.created_at)<30*864e5).reduce((x,p)=>x+p.amount_kobo,0)/100;
+    h=`<div class="card"><h3>Payments received</h3><div class="g"><div class="st"><span class="sub">Total received</span><b>₦${tot.toLocaleString()}</b></div><div class="st"><span class="sub">Payments</span><b>${D.pay.length}</b></div><div class="st"><span class="sub">Last 30 days</span><b>₦${m30.toLocaleString()}</b></div></div>${D.pay.slice(0,8).map(p=>`<div class="sw"><span>${esc((p.profiles&&p.profiles.full_name)||'')}<div class="sub">${fd(p.created_at)}</div></span><b>₦${(p.amount_kobo/100).toLocaleString()}</b></div>`).join('')||'<div class="sub" style="margin-top:10px">No payments yet.</div>'}</div>
+    <div class="card"><h3>Premium plans</h3><div class="sub" style="margin-bottom:8px">Prices in naira. Students see these when they upgrade.</div>${D.plans.map(p=>`<div class="it"><div class="row"><label>Plan${inp('plans',p.id,'name',p.name)}</label><label>Price (₦)<input type="number" data-t="plans" data-id="${esc(p.id)}" data-k="price_kobo" data-c="kobo" value="${p.price_kobo/100}"></label><label>Days${inp('plans',p.id,'days',p.days,'number')}</label>${act('plans',p)}${del('plans',p.id)}</div></div>`).join('')}<div class="row" style="margin-top:12px"><label>New plan<input id="pn"></label><label>Price (₦)<input id="pp" type="number"></label><label>Days<input id="pd" type="number"></label><button class="btn" data-a="addplan">Add</button></div>${em}</div>
+    <div class="card"><h3>Paystack subaccounts and split</h3><div class="sub" style="margin-bottom:8px">Each subaccount receives its share of every premium payment and you keep the rest. Account numbers go straight to Paystack and are not saved here.</div>${D.paystack_subaccounts.map(s=>`<div class="it"><div class="top"><div><b>${esc(s.business_name)}</b><div class="sub">${esc(s.bank_name)} · ****${esc(s.account_last4||'')} · ${s.percentage}% share</div><div class="sub">${s.subaccount_code?'Paystack code: '+esc(s.subaccount_code):'Not created on Paystack'}</div></div><button class="btn d ${armed==='s'+s.id?'arm':''}" data-a="delsub" data-id="${esc(s.id)}">${armed==='s'+s.id?'Tap again to delete':'Delete'}</button></div></div>`).join('')||'<div class="sub">No subaccounts yet. All payments go to your own Paystack account.</div>'}</div>
+    <div class="card"><h3>Add subaccount</h3>${D.banksErr?`<div class="sub" style="color:var(--down);margin-bottom:8px">${esc(D.banksErr)}</div>`:''}<div class="row"><label>Business name<input id="bn"></label><label>Bank<select id="bk"><option value="">Choose bank</option>${(D.banks||[]).map(b=>`<option value="${esc(b.code)}">${esc(b.name)}</option>`).join('')}</select></label></div><div class="row" style="margin-top:8px"><label>Account number<input id="ba" inputmode="numeric" maxlength="10" placeholder="10 digits"></label><label>Share of each payment (%)<input id="bp" type="number" min="1" max="99" value="30"></label></div>${em}<button class="btn" data-a="addsub" style="margin-top:8px">Create on Paystack</button></div>`}
+  if(tab==='Files'){const tot=D.files.reduce((a,f)=>a+Number(f.size_bytes),0),mb=n=>(n/1048576).toFixed(2)+' MB';
+    h=`<div class="g"><div class="st"><span class="sub">Files stored</span><b>${D.files.length}</b></div><div class="st"><span class="sub">Space used (shown files)</span><b>${mb(tot)}</b></div></div>
+    <div class="card" style="margin-top:14px"><h3>Student files, largest first</h3><div class="sub" style="margin-bottom:8px">Deleting removes the file from storage to free space. The student's note stays, without that file. Free Supabase storage is about 1 GB in total.</div>${em}${D.files.map(f=>`<div class="it"><div class="top"><div><b>${esc(f.name)}</b><div class="sub">${esc(f.owner_name||'')} · ${esc(f.owner_email||'')}</div><div class="sub">${esc(f.mime||'file')} · ${mb(Number(f.size_bytes))} · ${fd(f.created_at)}</div></div><button class="btn d ${armed==='f'+f.id?'arm':''}" data-a="delfile" data-id="${esc(f.id)}">${armed==='f'+f.id?'Tap again to delete':'Delete'}</button></div></div>`).join('')||'<div class="sub">No files uploaded yet.</div>'}</div>`}
+  if(tab==='Flags'){
+    h=`<div class="card"><h3>Score flags (${D.flags.length})</h3><div class="sub" style="margin-bottom:8px">Students whose scores look unusual: three or more perfect scores in 30 days, a jump of 30+ points in a week, or 40+ entries in one day. A flag is a prompt to look, not proof of cheating.</div>${em}${D.flags.map(f=>`<div class="it"><div class="top"><div><b>${esc(f.full_name)}</b><div class="sub">${esc(f.email||'')}</div><div class="sub"><b style="color:var(--gold)">${esc(f.reason)}</b> · ${esc(f.detail)}</div>${f.hidden?'<div class="sub">Hidden from leaderboards</div>':''}</div></div><div class="row" style="margin-top:8px"><button class="btn d" style="color:var(--ink);border-color:var(--line)" data-a="hide" data-id="${esc(f.user_id)}" data-h="${f.hidden?'0':'1'}">${f.hidden?'Show on leaderboard':'Hide from leaderboard'}</button><button class="btn d ${armed==='c'+f.user_id?'arm':''}" data-a="clear" data-id="${esc(f.user_id)}">${armed==='c'+f.user_id?'Tap again to clear scores':'Clear their scores'}</button></div></div>`).join('')||'<div class="sub">No flags right now.</div>'}</div>`}
+  if(tab==='Settings'){const w=D.wa||{};
+    h=`<div class="card"><h3>WhatsApp button</h3><div class="sub" style="margin-bottom:8px">Shows a floating WhatsApp button on your landing page. Visitors tap it to message you.</div>
+    <label class="sw" style="border:0;padding:0;display:flex;flex-direction:row;gap:8px;align-items:center;font-size:14px;color:var(--ink)"><input type="checkbox" id="wen" style="width:auto" ${w.enabled?'checked':''}>Show the button</label>
+    <div class="row" style="margin-top:10px"><label>WhatsApp number (with country code, digits only)<input id="wn" inputmode="numeric" placeholder="2348012345678" value="${esc(w.number||'')}"></label></div>
+    <label style="margin-top:8px">First message (what they will send)<textarea id="wm" rows="2">${esc(w.message||'')}</textarea></label>${em}
+    <button class="btn" data-a="savewa" style="margin-top:8px">Save</button></div>
+    <div class="card"><h3>Student file uploads</h3><div class="sub" style="margin-bottom:8px">Turn off uploads to save storage space. Turn both off to stop all uploads. Files already stored stay until you delete them in the Files tab.</div>
+    <label style="display:flex;flex-direction:row;gap:8px;align-items:center;font-size:14px;color:var(--ink)"><input type="checkbox" id="upi" style="width:auto" ${(D.up||{}).images!==false?'checked':''}>Allow image uploads</label>
+    <label style="display:flex;flex-direction:row;gap:8px;align-items:center;font-size:14px;color:var(--ink);margin-top:8px"><input type="checkbox" id="upp" style="width:auto" ${(D.up||{}).pdfs!==false?'checked':''}>Allow PDF uploads</label>${em}
+    <button class="btn" data-a="saveup" style="margin-top:8px">Save</button></div>
+    <div class="card"><h3>Mock site connection</h3><div class="sub" style="margin-bottom:8px">Keep this off until your mock site is live and sending results. When it is on, students see the Connect your mock account card and the Verified mocks leaderboard.</div>
+    <label style="display:flex;flex-direction:row;gap:8px;align-items:center;font-size:14px;color:var(--ink)"><input type="checkbox" id="mke" style="width:auto" ${(D.mk||{}).enabled?'checked':''}>Show mock features to students</label>${em}
+    <button class="btn" data-a="savemock" style="margin-top:8px">Save</button>
+    <div style="font-size:12px;font-weight:700;color:var(--gold);margin:16px 0 4px">Try it without the mock site</div>
+    <div class="sub">Adds a sample verified UTME mock to your own account so you can see how it looks. Remove it afterwards.</div>
+    <div class="row" style="margin-top:8px"><button class="btn" data-a="testmock">Add a sample mock to my account</button><button class="btn" style="background:transparent;color:var(--ink);border:1px solid var(--line)" data-a="rmtest">Remove sample mocks</button></div></div>`}
+  $('v').innerHTML=h;
+  const qi=$('q');if(qi)qi.oninput=()=>{q=qi.value;const p=qi.selectionStart;view();const n=$('q');n.focus();n.setSelectionRange(p,p)};
+}
+
+const v0=id=>$(id).value.trim();
+const fnMsg=async f=>{try{const j=await f.error.context.json();return j.error||f.error.message}catch(e){return f.error.message}};
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('[data-tb]');if(t){tab=t.dataset.tb;msg='';armed=null;history.pushState({tab},'');load();return}
+  const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a;msg='';
+  if(a==='del'){const k=b.dataset.t+b.dataset.id;if(armed!==k){armed=k;view();return}armed=null;
+    const r=b.dataset.t==='users'?await sb.rpc('admin_delete_user',{p_user:b.dataset.id}):await sb.from(b.dataset.t).delete().eq(PK[b.dataset.t]||'id',b.dataset.id);
+    if(r.error)msg=r.error.message;load();return}
+  if(a==='delfile'){const k='f'+b.dataset.id;if(armed!==k){armed=k;view();return}armed=null;
+    const f=D.files.find(x=>x.id===b.dataset.id);
+    if(f){const rm=await sb.storage.from('notes').remove([f.path]);if(rm.error)msg=rm.error.message;else{const r2=await sb.from('note_files').delete().eq('id',f.id);if(r2.error)msg=r2.error.message}}
+    load();return}
+  if(a==='addsyl'){const ex=$('sye').value,su=v0('sys'),lines=$('syt').value.split('\n').map(x=>x.trim()).filter(Boolean);
+    if(!su||!lines.length){msg='Enter the subject and at least one topic.'}else{const r1=await sb.from('syllabus_catalog').upsert(lines.map((t,i)=>({exam_key:ex,subject:su,topic:t,sort:i})),{onConflict:'exam_key,subject,topic',ignoreDuplicates:true});msg=r1.error?r1.error.message:'Saved.'}
+    load();return}
+  if(a==='delsyl'){const k='g'+b.dataset.ex+'|'+b.dataset.su;if(armed!==k){armed=k;view();return}armed=null;const r1=await sb.from('syllabus_catalog').delete().eq('exam_key',b.dataset.ex).eq('subject',b.dataset.su);if(r1.error)msg=r1.error.message;load();return}
+  if(a==='delsub'){const k='s'+b.dataset.id;if(armed!==k){armed=k;view();return}armed=null;const f=await sb.functions.invoke('paystack-admin',{body:{action:'delete_subaccount',id:b.dataset.id}});if(f.error)msg=await fnMsg(f);else if(f.data&&f.data.error)msg=f.data.error;load();return}
+  if(a==='hide'){const r1=await sb.rpc('admin_set_leaderboard_hidden',{p_user:b.dataset.id,p_hidden:b.dataset.h==='1'});if(r1.error)msg=r1.error.message;load();return}
+  if(a==='clear'){const k='c'+b.dataset.id;if(armed!==k){armed=k;view();return}armed=null;const r1=await sb.rpc('admin_clear_scores',{p_user:b.dataset.id});if(r1.error)msg=r1.error.message;load();return}
+  const v=id=>$(id).value.trim();let r=null;
+  if(a==='addexam'){if(!v('en')||!v('et'))msg='Enter the exam name and date.';else r=await sb.from('exams_catalog').insert({name:v('en'),exam_at:new Date(v('et')).toISOString()})}
+  if(a==='addschool'){const u=+v('su'),p=+v('sp'),po=+v('spo')||100,o=+v('so');if(!v('sn'))msg='Enter the school name.';else if(u<0||p<0||o<0)msg='Points cannot be negative.';else r=await sb.from('schools').insert({name:v('sn'),utme_points:u,post_points:p,post_out_of:po,olevel_points:o})}
+  if(a==='addmsg'){if(!v('mt')||!v('mb'))msg='Enter a title and message.';else r=await sb.from('welcome_messages').insert({title:v('mt'),body:v('mb')})}
+  if(a==='addplan'){const p=+v('pp'),d=+v('pd');if(!v('pn')||!(p>0)||!(d>0))msg='Enter a plan name, a price and the number of days.';else r=await sb.from('plans').insert({name:v('pn'),price_kobo:Math.round(p*100),days:Math.round(d)})}
+  if(a==='addsub'){const ac=v('ba'),pc=+v('bp'),bk=$('bk');if(!v('bn'))msg='Enter the business name.';else if(!bk.value)msg='Choose the bank.';else if(!/^\d{10}$/.test(ac))msg='Account number must be 10 digits.';else if(!(pc>=1&&pc<=99))msg='Share must be from 1 to 99.';else{const f=await sb.functions.invoke('paystack-admin',{body:{action:'create_subaccount',business_name:v('bn'),bank_code:bk.value,bank_name:bk.options[bk.selectedIndex].text,account_number:ac,share:pc}});if(f.error)msg=await fnMsg(f);else if(f.data&&f.data.error)msg=f.data.error;else msg='Subaccount created on Paystack.'}}
+  if(a==='savewa'){const num=v('wn').replace(/\D/g,''),en=$('wen').checked;if(en&&!/^\d{8,15}$/.test(num))msg='Enter the number with country code, 8 to 15 digits (for example 2348012345678).';else{r=await sb.from('site_settings').upsert({key:'whatsapp',value:{enabled:en,number:num,message:v('wm')},updated_at:new Date().toISOString()},{onConflict:'key'});if(!r.error)msg='Saved.'}}
+  if(a==='saveup'){r=await sb.from('site_settings').upsert({key:'uploads',value:{images:$('upi').checked,pdfs:$('upp').checked},updated_at:new Date().toISOString()},{onConflict:'key'});if(!r.error)msg='Saved.'}
+  if(a==='savemock'){r=await sb.from('site_settings').upsert({key:'mocks',value:{enabled:$('mke').checked},updated_at:new Date().toISOString()},{onConflict:'key'});if(!r.error)msg='Saved.'}
+  if(a==='testmock'){r=await sb.rpc('admin_test_mock');if(!r.error)msg='Sample mock added to your own account. Open the student app to see it.'}
+  if(a==='rmtest'){r=await sb.rpc('admin_remove_test_mocks');if(!r.error)msg='Sample mocks removed.'}
+  if(r&&r.error)msg=r.error.message;
+  load();
+});
+document.addEventListener('change',async e=>{
+  const el=e.target,t=el.dataset.t;if(!t||!el.dataset.k)return;
+  let v=el.type==='checkbox'?el.checked:el.value;
+  if(el.type==='number'||el.dataset.c==='kobo'){v=parseFloat(v);if(isNaN(v)||v<0){msg='Enter a valid number.';return load()}if(el.dataset.c==='kobo')v=Math.round(v*100)}
+  if(el.type==='datetime-local'){if(!v){msg='Pick a valid date and time.';return load()}v=new Date(v).toISOString()}
+  const pk=PK[t]||'id';
+  const {error}=await sb.from(t).update({[el.dataset.k]:v}).eq(pk,el.dataset.id);
+  if(error){msg=error.message;return load()}
+  msg='';const it=(D[t]||[]).find(x=>String(x[pk])===el.dataset.id);if(it)it[el.dataset.k]=v;
+  if(t==='schools'||t==='features'||(t==='welcome_messages'&&el.dataset.k==='active'))view();
+});
+addEventListener('popstate',e=>{const t=(e.state&&e.state.tab)||'Overview';if(t!==tab){tab=t;msg='';armed=null;load()}});
+load();
+</script>
+<script>window.doLogout=function(){var go=function(){try{Object.keys(localStorage).filter(function(k){return k.indexOf("sb-")===0}).forEach(function(k){localStorage.removeItem(k)})}catch(e){}location.replace("index.html")};try{Promise.race([sb.auth.signOut({scope:"local"}),new Promise(function(r){setTimeout(r,1500)})]).then(go,go)}catch(e){go()}};</script>
+</body>
+</html>
